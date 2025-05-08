@@ -18,7 +18,7 @@ export function Typography({
 }: TypographyProps) {
   const sizeMap = {
     xs: "text-xs",
-    sm: "text-xl",
+    sm: "text-sm",
     md: "text-2xl",
     lg: "text-[32px]",
     xl: "text-4xl font-bold",

@@ -37,7 +37,7 @@ const Container: React.FC<ContainerProps> = ({
   ...props
 }) => {
   const variantClass = {
-    small: "max-w-md mx-auto px-4",
+    small: "max-w-[1200px] mx-auto px-4",
     large: "max-w-7xl mx-auto px-4",
     full: "w-full px-[72px]",
   };
