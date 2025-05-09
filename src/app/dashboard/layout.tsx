@@ -16,7 +16,7 @@ export default async function DashboardLayout({
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
       <SidebarInset>
-        <main>{children}</main>
+        <main className="px-6 py-4">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

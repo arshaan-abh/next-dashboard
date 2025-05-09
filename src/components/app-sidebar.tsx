@@ -1,69 +1,63 @@
 import { sidebarMenuItems } from "@/app/consts/sidebar-menu-items";
 import Link from "next/link";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { Frame, ChevronsLeftRight } from "lucide-react";
 import { LoadingIndicator } from "./loading-indicator";
 import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarMenuAction,
-  SidebarTrigger,
+  SidebarTriggerBinder,
   SidebarFooter,
 } from "./shadcn/sidebar";
 import { SidebarUser } from "./sidebar-user";
+import { useId } from "react";
 
 export const AppSidebar = () => {
+  const sidebarMenuButtonId = useId();
+
   return (
     <Sidebar variant="inset" collapsible="icon">
-      <SidebarHeader>Eco Connect</SidebarHeader>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton className="cursor-default" isActive>
+              <Frame />
+              <span>Eco Connect</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
       <SidebarContent>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Pages</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {sidebarMenuItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.href}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                        <SidebarMenuAction>
-                          <LoadingIndicator />
-                        </SidebarMenuAction>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-                <SidebarMenuItem>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {sidebarMenuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <SidebarTrigger
-                      className="justify-start"
-                      childrenWhenOpen={
-                        <>
-                          <ChevronsLeft />
-                          <span>Close Sidebar</span>
-                        </>
-                      }
-                      childrenWhenClosed={
-                        <>
-                          <ChevronsRight />
-                          <span>Open Sidebar</span>
-                        </>
-                      }
-                    />
+                    <Link href={item.href}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                      <LoadingIndicator className="ml-auto" />
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
+              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton id={sidebarMenuButtonId} disabled>
+                  <SidebarTriggerBinder id={sidebarMenuButtonId} />
+                  <ChevronsLeftRight />
+                  <span>Expand / Collapse</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarUser
@@ -77,3 +71,5 @@ export const AppSidebar = () => {
     </Sidebar>
   );
 };
+
+// TODO there is no sidebar trigger in small screens
