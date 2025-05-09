@@ -1,7 +1,7 @@
-import Container from "@/components/shadcn/container";
+import Container from "@/components/commons/container";
 import Image from "next/image";
-import { Title } from "../shadcn/title";
-import { Button } from "../shadcn/button";
+import { Title } from "@/components/commons/title";
+import { Button } from "@/components/shadcn/button";
 import { Mail } from "lucide-react";
 
 const Header = () => {

@@ -1,6 +1,6 @@
-import Container from "@/components/shadcn/container";
-import { Title } from "@/components/shadcn/title";
-import { Typography } from "@/components/shadcn/typography";
+import Container from "@/components/commons/container";
+import { Title } from "@/components/commons/title";
+import { Typography } from "@/components/commons/typography";
 import Image from "next/image";
 
 const items = [
