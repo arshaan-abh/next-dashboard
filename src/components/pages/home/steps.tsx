@@ -28,7 +28,7 @@ const items = [
 
 const Steps = () => {
   return (
-    <Container variant="full" className="bg-[var(--green-500)] py-10">
+    <Container variant="full" className="bg-light-green-500 py-10">
       <Container variant="small" className="px-20">
         <div className="flex items-center justify-between">
           {items.map((item) => (

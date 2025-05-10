@@ -15,19 +15,16 @@ const HowWeAre = () => {
           height={396}
         />
         <div className="flex flex-col items-center">
-          <Title
-            as="h2"
-            className="text-[40px] font-bold text-[var(--green-700)]"
-          >
+          <Title as="h2" className="text-light-green-700 text-[40px] font-bold">
             Who We Are
           </Title>
-          <Typography as="p" className="text-[var(--green-700)]">
+          <Typography as="p" className="text-light-green-700">
             At a Glance:
           </Typography>
           <Typography
             as="p"
             size="sm"
-            className="mt-2 leading-7 text-[var(--green-700)]"
+            className="text-light-green-700 mt-2 leading-7"
           >
             Ecoconnect is a LCA-based building material database that empowers
             architects and project developers in discerning eco-conscious
@@ -38,7 +35,9 @@ const HowWeAre = () => {
             consultations through detailed report sheets, material supply, and
             project material profiles
           </Typography>
-          <Button className="mt-4">Our Customers</Button>
+          <Button rounded={"full"} className={"bg-light-green-500 mt-4"}>
+            Our Customers
+          </Button>
         </div>
       </Container>
     </Container>

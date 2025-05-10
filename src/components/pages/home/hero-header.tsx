@@ -6,9 +6,9 @@ import { Typography } from "@/components/commons/typography";
 const HeroHeader = () => {
   return (
     <Container variant="full" className="mt-3 px-0">
-      <div className="flex h-[680px] items-center justify-center bg-[var(--green-700)]/30 bg-[url(/img/hero-header.webp)] bg-cover bg-center bg-blend-multiply">
+      <div className="bg-light-green-700/30 flex h-[680px] items-center justify-center bg-[url(/img/hero-header.webp)] bg-cover bg-center bg-blend-multiply">
         <div className="flex w-full flex-col items-center gap-3">
-          <div className="w-full bg-[var(--green-700)]/50 py-5">
+          <div className="bg-light-green-700/50 w-full py-5">
             <Title align="center" className="text-6xl font-bold text-white">
               Ecoconnect
             </Title>
@@ -16,7 +16,11 @@ const HeroHeader = () => {
               Creating a Sustainable World, One Building at a Time
             </Typography>
           </div>
-          <Button size={"xl"} className="w-max">
+          <Button
+            size={"xl"}
+            rounded={"full"}
+            className={"bg-light-green-500 w-max"}
+          >
             Who We Are
           </Button>
         </div>

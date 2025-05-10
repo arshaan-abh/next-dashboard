@@ -17,21 +17,22 @@ const Header = () => {
             quality={100}
           />
           <div>
-            <Title
-              as="h3"
-              size="lg"
-              className="text-[var(--green-500)] uppercase"
-            >
+            <Title as="h3" size="lg" className="text-light-green-500 uppercase">
               ECOCONNECT
             </Title>
-            <Title as="h3" size="xs" className="text-[var(--green-600)]">
+            <Title as="h3" size="xs" className="text-light-green-600">
               Creating a Sustainable World, One Building at a Time
             </Title>
           </div>
         </div>
 
-        <Button variant={"default"} size={"xl"}>
-          Contact <Mail size={24} />
+        <Button
+          variant={"default"}
+          size={"xl"}
+          rounded={"full"}
+          className={"bg-light-green-500"}
+        >
+          Contact <Mail className="size-6" />
         </Button>
       </Container>
     </header>

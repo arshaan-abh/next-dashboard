@@ -48,18 +48,18 @@ const Services = () => {
           />
 
           <div className="flex max-w-xl flex-col items-start justify-between">
-            <Title as="h4" className="text-[100px] text-[var(--green-500)]">
+            <Title as="h4" className="text-light-green-500 text-[100px]">
               {item.counter}
             </Title>
             <Title
               as="h4"
-              className="text-[38px] leading-8 text-[var(--green-500)]"
+              className="text-light-green-500 text-[38px] leading-8"
             >
               {item.title}
             </Title>
             <Typography
               as="p"
-              className="text-base leading-8 text-[var(--green-500)]"
+              className="text-light-green-500 text-base leading-8"
             >
               {item.content}
             </Typography>

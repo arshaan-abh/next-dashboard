@@ -82,19 +82,21 @@
   --space-md: 1rem;
   --space-lg: 2rem;
   --space-xl: 4rem;
+}
 
+@theme {
   /* Green Color */
 
-  --green-50: oklch(0.98 0.05 142); /* Very light green */
-  --green-100: oklch(0.94 0.07 142);
-  --green-200: oklch(0.88 0.09 142);
-  --green-300: oklch(0.8 0.12 142);
-  --green-400: oklch(0.72 0.17 142);
-  --green-500: #3f7652;
-  --green-600: #2e563c;
-  --green-700: #015450;
-  --green-800: oklch(0.35 0.16 142);
-  --green-900: oklch(0.25 0.14 142); /* Very dark green */
+  --color-light-green-50: oklch(0.98 0.05 142); /* Very light green */
+  --color-light-green-100: oklch(0.94 0.07 142);
+  --color-light-green-200: oklch(0.88 0.09 142);
+  --color-light-green-300: oklch(0.8 0.12 142);
+  --color-light-green-400: oklch(0.72 0.17 142);
+  --color-light-green-500: #3f7652;
+  --color-light-green-600: #2e563c;
+  --color-light-green-700: #015450;
+  --color-light-green-800: oklch(0.35 0.16 142);
+  --color-light-green-900: oklch(0.25 0.14 142); /* Very dark green */
 }
 
 .dark {
