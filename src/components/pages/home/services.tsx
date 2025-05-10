@@ -32,11 +32,14 @@ const items = [
 
 const Services = () => {
   return (
-    <Container variant="small" className="space-y-24 p-20">
+    <Container
+      variant="small"
+      className="space-y-24 p-20 max-md:space-y-12 max-md:p-10"
+    >
       {items.map((item, index) => (
         <div
           key={item.id}
-          className={`flex items-center gap-x-8 ${
+          className={`flex items-center gap-x-8 gap-y-6 max-md:flex-col ${
             index % 2 == 0 ? "flex-row-reverse" : ""
           }`}
         >
@@ -44,16 +47,20 @@ const Services = () => {
             src={item.src}
             width={505}
             height={505}
+            className="max-md:w-full"
             alt={`Feature ${item.counter}`}
           />
 
-          <div className="flex max-w-xl flex-col items-start justify-between">
-            <Title as="h4" className="text-light-green-500 text-[100px]">
+          <div className="flex max-w-xl flex-col items-start justify-between gap-3">
+            <Title
+              as="h4"
+              className="text-light-green-500 text-[100px] max-md:text-6xl"
+            >
               {item.counter}
             </Title>
             <Title
               as="h4"
-              className="text-light-green-500 text-[38px] leading-8"
+              className="text-light-green-500 text-[38px] leading-8 max-md:text-3xl"
             >
               {item.title}
             </Title>

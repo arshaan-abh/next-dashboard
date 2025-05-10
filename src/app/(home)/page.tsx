@@ -9,11 +9,14 @@ export default function HomePage() {
   return (
     <main className="bg-white">
       <HeroHeader />
-      {/* 
       <HowWeAre />
       <Features />
       <Services />
       <Steps />
+
+      {/* 
+      
+     
       <ReportMap /> */}
     </main>
   );

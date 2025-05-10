@@ -36,15 +36,28 @@ const items = [
 
 const Features = () => {
   return (
-    <Container variant="full" className="bg-light-green-500 p-20">
-      <div className="flex items-center justify-between gap-32">
+    <Container variant="full" className="bg-light-green-500 p-10 md:p-20">
+      <div className="flex items-center justify-between gap-32 max-md:flex-col max-md:gap-10">
         {items.map((item) => (
-          <div key={item.id} className="flex flex-col items-center gap-4">
-            <Image width={127} height={127} alt="feature" src={item.src} />
-            <Title as="h4" className="text-xl text-white">
+          <div
+            key={item.id}
+            className="flex flex-col items-center gap-4 max-md:gap-3"
+          >
+            <Image
+              width={127}
+              height={127}
+              alt="feature"
+              src={item.src}
+              className="max-md:size-24"
+            />
+            <Title as="h4" className="text-xl text-white max-md:text-base">
               {item.title}
             </Title>
-            <Typography as="p" align="center" className="text-sm text-white">
+            <Typography
+              as="p"
+              align="center"
+              className="text-sm text-white max-md:text-xs"
+            >
               {item.content}
             </Typography>
           </div>

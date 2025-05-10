@@ -31,31 +31,41 @@ const items = [
 const Steps = () => {
   return (
     <Container variant="full" className="bg-light-green-500 py-10">
-      <Container variant="small" className="px-20">
-        <div className="flex items-center justify-between">
+      <Container variant="small" className="px-20 max-md:px-4">
+        <div className="flex items-center justify-between max-md:flex-col">
           {items.map((item, i) => (
             <React.Fragment key={i}>
               {" "}
-              <div className={`flex flex-col items-center gap-5`}>
+              <div className={`flex flex-col items-center gap-5 max-md:gap-3`}>
                 <Image
                   src={item.src}
                   width={100}
                   height={90}
+                  className="max-md:size-[80px]"
                   alt={`step ${item.id}`}
                 />
 
-                <Title as="h4" className="max-w-[140px] text-xl text-white">
+                <Title
+                  as="h4"
+                  className="max-w-[140px] text-center text-xl text-white max-md:text-base"
+                >
                   {item.title}
                 </Title>
               </div>
-              {i + 2 <= items.length && <MoveRight size={60} strokeWidth={1} />}
+              {i + 2 <= items.length && (
+                <MoveRight
+                  size={60}
+                  strokeWidth={1}
+                  className="max-md:my-5 max-md:rotate-90"
+                />
+              )}
             </React.Fragment>
           ))}
         </div>
         <Typography
           as="p"
           align="center"
-          className="mx-auto mt-10 w-4/6 text-sm leading-8 text-white"
+          className="mx-auto mt-10 w-4/6 text-sm leading-8 text-white max-md:w-full"
         >
           We meticulously assess every process, from material production through
           packaging, storage, transportation, to project delivery, minimizing
