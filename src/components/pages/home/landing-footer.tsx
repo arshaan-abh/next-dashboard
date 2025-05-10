@@ -9,8 +9,8 @@ const Footer = () => {
   return (
     <Container variant="full" className="bg-light-green-500">
       <Container variant="large">
-        <footer className="flex w-full justify-between gap-10 py-24">
-          <div className="flex w-3/6 flex-col justify-center gap-5">
+        <footer className="flex w-full items-center justify-between gap-10 py-10 max-md:flex-col max-md:items-baseline md:py-24">
+          <div className="flex flex-col justify-center gap-5 md:w-3/6">
             <Title as="h4">Get in Touch</Title>
             <ul className="list-inside list-disc space-y-5">
               <li>Receive Updates On Our Launch Date</li>
@@ -29,11 +29,11 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          {/* form */}
-          <div className="flex w-3/6 justify-center">
-            <form className="flex w-4/6 flex-col gap-4">
-              <div className="flex items-center gap-5">
-                <div>
+
+          <div className="flex w-full justify-center md:w-3/6">
+            <form className="flex w-full flex-col gap-4 md:w-6/6 lg:w-4/6">
+              <div className="flex w-full items-center gap-5 max-sm:flex-col">
+                <div className="w-full">
                   {" "}
                   <Label htmlFor="first-name">First Name</Label>
                   <Input
@@ -42,7 +42,7 @@ const Footer = () => {
                     className="mt-4 border-white focus-visible:ring-gray-100"
                   />
                 </div>
-                <div>
+                <div className="w-full">
                   <Label htmlFor="last-name">First Name</Label>
                   <Input
                     id="last-name"

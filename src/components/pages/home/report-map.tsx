@@ -6,13 +6,13 @@ const ReportMap = () => {
   return (
     <Container
       variant="large"
-      className="flex items-center justify-between py-20"
+      className="flex items-center justify-between gap-6 py-10 max-md:flex-col md:py-10"
     >
       <div className="flex flex-col items-center gap-10">
         <Typography
           align="center"
           as="p"
-          className="text-light-green-500 text-xl"
+          className="text-light-green-500 text-lg md:text-xl"
         >
           Customized Report Sheets <br /> Providing You With The Most Relevant
           and <br />
@@ -27,7 +27,7 @@ const ReportMap = () => {
         <Typography
           align="center"
           as="p"
-          className="text-light-green-500 text-xl"
+          className="text-light-green-500 text-lg md:text-xl"
         >
           Interactive Map Showing The <br /> Suggested Results
         </Typography>

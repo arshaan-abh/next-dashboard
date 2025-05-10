@@ -13,11 +13,7 @@ export default function HomePage() {
       <Features />
       <Services />
       <Steps />
-
-      {/* 
-      
-     
-      <ReportMap /> */}
+      <ReportMap />
     </main>
   );
 }
