@@ -6,7 +6,7 @@ import { Mail } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 right-0 py-4 shadow-[0_4px_13px_5px_rgba(63,118,82,0.26)]">
+    <header className="sticky top-0 right-0 bg-white py-4 shadow-[0_4px_13px_5px_rgba(63,118,82,0.26)]">
       <Container variant="full" className="flex items-center justify-between">
         <div className="flex items-center gap-x-1">
           <Image
