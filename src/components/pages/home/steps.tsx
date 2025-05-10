@@ -3,6 +3,7 @@ import { Title } from "@/components/commons/title";
 import { Typography } from "@/components/commons/typography";
 import Image from "next/image";
 import { MoveRight } from "lucide-react";
+import React from "react";
 
 const items = [
   {
@@ -33,8 +34,9 @@ const Steps = () => {
       <Container variant="small" className="px-20">
         <div className="flex items-center justify-between">
           {items.map((item, i) => (
-            <>
-              <div key={item.id} className={`flex flex-col items-center gap-5`}>
+            <React.Fragment key={i}>
+              {" "}
+              <div className={`flex flex-col items-center gap-5`}>
                 <Image
                   src={item.src}
                   width={100}
@@ -47,7 +49,7 @@ const Steps = () => {
                 </Title>
               </div>
               {i + 2 <= items.length && <MoveRight size={60} strokeWidth={1} />}
-            </>
+            </React.Fragment>
           ))}
         </div>
         <Typography
