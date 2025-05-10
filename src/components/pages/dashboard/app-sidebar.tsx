@@ -15,7 +15,7 @@ import {
   SidebarFooter,
 } from "../../shadcn/sidebar";
 import { SidebarUser } from "./sidebar-user";
-import { useId } from "react";
+import { FC, useId } from "react";
 
 export const AppSidebar = () => {
   const sidebarMenuButtonId = useId();
@@ -24,28 +24,15 @@ export const AppSidebar = () => {
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton className="cursor-default" isActive>
-              <Frame />
-              <span>Eco Connect</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <CustomSidebarMenuItem {...sidebarMenuItems[0]} isActive />
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sidebarMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                      <LoadingIndicator className="ml-auto" />
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+              {sidebarMenuItems.slice(1).map((item) => (
+                <CustomSidebarMenuItem key={item.title} {...item} />
               ))}
               <SidebarMenuItem>
                 <SidebarMenuButton id={sidebarMenuButtonId} disabled>
@@ -68,6 +55,22 @@ export const AppSidebar = () => {
         />
       </SidebarFooter>
     </Sidebar>
+  );
+};
+
+const CustomSidebarMenuItem: FC<
+  (typeof sidebarMenuItems)[0] & { isActive?: boolean }
+> = ({ title, href, icon: Icon, isActive }) => {
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton isActive={isActive} asChild>
+        <Link href={href}>
+          <Icon />
+          <span>{title}</span>
+          <LoadingIndicator className="ml-auto" />
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
   );
 };
 
