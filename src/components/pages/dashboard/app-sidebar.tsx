@@ -1,7 +1,7 @@
 import { sidebarMenuItems } from "@/app/consts/sidebar-menu-items";
 import Link from "next/link";
 import { Frame, ChevronsLeftRight } from "lucide-react";
-import { LoadingIndicator } from "./loading-indicator";
+import { LoadingIndicator } from "../../commons/loading-indicator";
 import {
   Sidebar,
   SidebarHeader,
@@ -11,10 +11,9 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarMenuAction,
   SidebarTriggerBinder,
   SidebarFooter,
-} from "./shadcn/sidebar";
+} from "../../shadcn/sidebar";
 import { SidebarUser } from "./sidebar-user";
 import { useId } from "react";
 
