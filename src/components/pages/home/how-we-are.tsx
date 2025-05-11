@@ -6,8 +6,11 @@ import Image from "next/image";
 
 const HowWeAre = () => {
   return (
-    <Container variant="full" className="py-20">
-      <Container variant="small" className="flex items-center gap-20">
+    <Container variant="full" className="py-20 max-md:py-10">
+      <Container
+        variant="small"
+        className="flex items-center gap-20 max-md:flex-col max-md:gap-10"
+      >
         <Image
           src={"/img/who.webp"}
           alt="who we are"
@@ -15,16 +18,22 @@ const HowWeAre = () => {
           height={396}
         />
         <div className="flex flex-col items-center">
-          <Title as="h2" className="text-light-green-700 text-[40px] font-bold">
+          <Title
+            as="h2"
+            className="text-light-green-700 text-[40px] font-bold max-md:text-3xl"
+          >
             Who We Are
           </Title>
-          <Typography as="p" className="text-light-green-700">
+          <Typography
+            as="p"
+            className="text-light-green-700 max-md:mt-1 max-md:text-xl"
+          >
             At a Glance:
           </Typography>
           <Typography
             as="p"
             size="sm"
-            className="text-light-green-700 mt-2 leading-7"
+            className="text-light-green-700 mt-2 leading-7 max-md:text-center max-md:text-sm"
           >
             Ecoconnect is a LCA-based building material database that empowers
             architects and project developers in discerning eco-conscious
@@ -35,7 +44,10 @@ const HowWeAre = () => {
             consultations through detailed report sheets, material supply, and
             project material profiles
           </Typography>
-          <Button rounded={"full"} className={"bg-light-green-500 mt-4"}>
+          <Button
+            rounded={"full"}
+            className={"bg-light-green-500 mt-4 text-white"}
+          >
             Our Customers
           </Button>
         </div>
