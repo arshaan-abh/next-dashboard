@@ -1,8 +1,9 @@
 import { SidebarTrigger } from "@/components/shadcn/sidebar";
 import { Separator } from "@/components/shadcn/separator";
-import { ReactNode, FC } from "react";
+import { ReactNode, FC, ComponentProps } from "react";
+import { cn } from "@/utils/cn";
 
-interface DashboardPageLayoutProps {
+interface DashboardPageLayoutProps extends ComponentProps<"div"> {
   title: string;
   children?: ReactNode;
 }
@@ -10,6 +11,8 @@ interface DashboardPageLayoutProps {
 export const DashboardPageLayout: FC<DashboardPageLayoutProps> = ({
   title,
   children,
+  className,
+  ...otherProps
 }) => {
   return (
     <>
@@ -23,7 +26,9 @@ export const DashboardPageLayout: FC<DashboardPageLayoutProps> = ({
           <h1 className="text-base font-medium">{title}</h1>
         </div>
       </header>
-      <div className="p-6">{children}</div>
+      <div className={cn("p-6", className)} {...otherProps}>
+        {children}
+      </div>
     </>
   );
 };
