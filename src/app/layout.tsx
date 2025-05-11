@@ -3,6 +3,8 @@ import { Geist } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 import { ThemeProvider } from "@/components/commons/theme-provider";
+import { Toaster } from "@/components/shadcn/sonner";
+import { DialogProvider } from "@/components/commons/dialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +25,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <DialogProvider>
+            {children}
+            <Toaster />
+          </DialogProvider>
         </ThemeProvider>
       </body>
     </html>

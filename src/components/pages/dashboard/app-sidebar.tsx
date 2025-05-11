@@ -1,6 +1,6 @@
-import { sidebarMenuItems } from "@/app/consts/sidebar-menu-items";
+import { sidebarMenuItems } from "@/consts/sidebar-menu-items";
 import Link from "next/link";
-import { LoadingIndicator } from "../../commons/loading-indicator";
+import { LinkStatus } from "../../commons/link-status";
 import {
   Sidebar,
   SidebarHeader,
@@ -56,11 +56,9 @@ const CustomSidebarMenuItem: FC<
         <Link href={href}>
           <Icon />
           <span>{title}</span>
-          <LoadingIndicator className="ml-auto" />
+          <LinkStatus className="ml-auto" />
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
 };
-
-// TODO there is no sidebar trigger in small screens
