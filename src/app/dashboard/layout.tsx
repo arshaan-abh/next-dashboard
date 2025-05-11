@@ -20,12 +20,7 @@ export default async function DashboardLayout({
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar />
       <SidebarInset>
-        <main className="px-6 py-4">
-          <div className="mb-2 md:hidden">
-            <SidebarTrigger />
-          </div>
-          {children}
-        </main>
+        <main>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
