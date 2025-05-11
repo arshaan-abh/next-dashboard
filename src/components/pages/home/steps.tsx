@@ -31,7 +31,7 @@ const items = [
 const Steps = () => {
   return (
     <Container variant="full" className="bg-light-green-500 py-10">
-      <Container variant="small" className="px-20 max-md:px-4">
+      <Container variant="small" className="max-md:px-4 lg:px-20">
         <div className="flex items-center justify-between max-md:flex-col">
           {items.map((item, i) => (
             <React.Fragment key={i}>
@@ -47,7 +47,7 @@ const Steps = () => {
 
                 <Title
                   as="h4"
-                  className="max-w-[140px] text-center text-xl text-white max-md:text-base"
+                  className="max-w-[140px] text-center text-xl font-semibold text-white max-md:text-base"
                 >
                   {item.title}
                 </Title>

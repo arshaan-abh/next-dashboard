@@ -6,10 +6,10 @@ import Image from "next/image";
 
 const HowWeAre = () => {
   return (
-    <Container variant="full" className="py-20 max-md:py-10">
+    <Container id="HowWeAre" variant="full" className="py-20 max-md:py-10">
       <Container
         variant="small"
-        className="flex items-center gap-20 max-md:flex-col max-md:gap-10"
+        className="flex items-center gap-20 max-lg:flex-col max-md:gap-10"
       >
         <Image
           src={"/img/who.webp"}
@@ -26,14 +26,14 @@ const HowWeAre = () => {
           </Title>
           <Typography
             as="p"
-            className="text-light-green-700 max-md:mt-1 max-md:text-xl"
+            className="text-light-green-700 font-light max-md:mt-1 max-md:text-xl"
           >
             At a Glance:
           </Typography>
           <Typography
             as="p"
             size="sm"
-            className="text-light-green-700 mt-2 leading-7 max-md:text-center max-md:text-sm"
+            className="text-light-green-700 mt-2 leading-7 max-md:text-center max-md:text-sm md:w-5/6"
           >
             Ecoconnect is a LCA-based building material database that empowers
             architects and project developers in discerning eco-conscious
@@ -46,7 +46,9 @@ const HowWeAre = () => {
           </Typography>
           <Button
             rounded={"full"}
-            className={"bg-light-green-500 mt-4 text-white"}
+            className={
+              "bg-light-green-500 hover:bg-light-green-700 mt-4 text-white"
+            }
           >
             Our Customers
           </Button>

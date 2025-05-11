@@ -39,7 +39,7 @@ const Services = () => {
       {items.map((item, index) => (
         <div
           key={item.id}
-          className={`flex items-center gap-x-8 gap-y-6 max-md:flex-col ${
+          className={`flex items-center gap-x-8 gap-y-6 max-lg:flex-col ${
             index % 2 == 0 ? "flex-row-reverse" : ""
           }`}
         >
@@ -54,13 +54,13 @@ const Services = () => {
           <div className="flex max-w-xl flex-col items-start justify-between gap-3">
             <Title
               as="h4"
-              className="text-light-green-500 text-[100px] max-md:text-6xl"
+              className="text-light-green-500 text-[100px] font-semibold max-md:text-6xl"
             >
               {item.counter}
             </Title>
             <Title
               as="h4"
-              className="text-light-green-500 text-[38px] leading-8 max-md:text-3xl"
+              className="text-light-green-500 text-[38px] leading-12 font-semibold max-md:text-3xl"
             >
               {item.title}
             </Title>

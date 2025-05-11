@@ -37,7 +37,7 @@ const items = [
 const Features = () => {
   return (
     <Container variant="full" className="bg-light-green-500 p-10 md:p-20">
-      <div className="flex items-center justify-between gap-32 max-md:flex-col max-md:gap-10">
+      <div className="flex items-center justify-between gap-32 max-lg:flex-col max-md:gap-10">
         {items.map((item) => (
           <div
             key={item.id}
@@ -50,7 +50,10 @@ const Features = () => {
               src={item.src}
               className="max-md:size-24"
             />
-            <Title as="h4" className="text-xl text-white max-md:text-base">
+            <Title
+              as="h4"
+              className="text-xl font-semibold text-white max-md:text-base"
+            >
               {item.title}
             </Title>
             <Typography

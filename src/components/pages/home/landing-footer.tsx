@@ -11,7 +11,9 @@ const Footer = () => {
       <Container variant="large">
         <footer className="flex w-full items-center justify-between gap-10 py-10 max-md:flex-col max-md:items-baseline md:py-24">
           <div className="flex flex-col justify-center gap-5 md:w-3/6">
-            <Title as="h4">Get in Touch</Title>
+            <Title as="h4" className="font-semibold">
+              Get in Touch
+            </Title>
             <ul className="list-inside list-disc space-y-5">
               <li>Receive Updates On Our Launch Date</li>
               <li>Ask Your Questions</li>

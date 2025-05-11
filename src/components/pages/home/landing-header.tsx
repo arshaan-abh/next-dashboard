@@ -45,7 +45,9 @@ const Header = () => {
         <Button
           size={"xl"}
           rounded={"full"}
-          className={"bg-light-green-500 text-white max-md:hidden"}
+          className={
+            "bg-light-green-500 hover:bg-light-green-700 text-white max-md:hidden"
+          }
         >
           Contact <Mail className="size-6" />
         </Button>
