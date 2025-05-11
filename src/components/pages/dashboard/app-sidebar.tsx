@@ -1,6 +1,5 @@
 import { sidebarMenuItems } from "@/app/consts/sidebar-menu-items";
 import Link from "next/link";
-import { Frame, ChevronsLeftRight } from "lucide-react";
 import { LoadingIndicator } from "../../commons/loading-indicator";
 import {
   Sidebar,
@@ -11,15 +10,12 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTriggerBinder,
   SidebarFooter,
 } from "../../shadcn/sidebar";
 import { SidebarUser } from "./sidebar-user";
-import { FC, useId } from "react";
+import { FC } from "react";
 
 export const AppSidebar = () => {
-  const sidebarMenuButtonId = useId();
-
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
@@ -34,13 +30,6 @@ export const AppSidebar = () => {
               {sidebarMenuItems.slice(1).map((item) => (
                 <CustomSidebarMenuItem key={item.title} {...item} />
               ))}
-              <SidebarMenuItem>
-                <SidebarMenuButton id={sidebarMenuButtonId} disabled>
-                  <SidebarTriggerBinder id={sidebarMenuButtonId} />
-                  <ChevronsLeftRight />
-                  <span>Expand / Collapse</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

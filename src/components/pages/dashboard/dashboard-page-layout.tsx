@@ -2,6 +2,7 @@ import { SidebarTrigger } from "@/components/shadcn/sidebar";
 import { Separator } from "@/components/shadcn/separator";
 import { ReactNode, FC, ComponentProps } from "react";
 import { cn } from "@/utils/cn";
+import { ThemeToggle } from "@/components/commons/theme-toggle";
 
 interface DashboardPageLayoutProps extends ComponentProps<"div"> {
   title: string;
@@ -24,6 +25,8 @@ export const DashboardPageLayout: FC<DashboardPageLayoutProps> = ({
             className="mx-2 data-[orientation=vertical]:h-4"
           />
           <h1 className="text-base font-medium">{title}</h1>
+          <div className="grow" />
+          <ThemeToggle variant="ghost" size="icon" className="size-7" />
         </div>
       </header>
       <div className={cn("p-6", className)} {...otherProps}>
