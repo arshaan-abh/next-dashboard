@@ -11,15 +11,21 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/shadcn/card";
-import { PlanSchema, plans } from "@/consts/plans";
+import { plans } from "@/consts/plans";
 import { cn } from "@/utils/cn";
-import { ComponentProps, ReactNode, FC } from "react";
+import { ComponentProps, ReactNode, FC, useEffect } from "react";
 import { Form } from "@/components/commons/form";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { ControlledTextField } from "@/components/commons/controlled-text-field";
+
+const unitPriceInEuros = 1;
 
 const SelectPlanRequestSchema = z.object({
-  selectedPlan: PlanSchema,
+  customMaterialsAmount: z.number().positive(),
+  customReportsAmount: z.number().positive(),
+  selectedPlansTitle: z.string(),
+  selectedPlansPrice: z.number().positive(),
 });
 type SelectPlanRequest = z.infer<typeof SelectPlanRequestSchema>;
 
@@ -27,13 +33,14 @@ export default function SelectPlan() {
   return (
     <Form<SelectPlanRequest>
       zodSchema={SelectPlanRequestSchema}
-      defaultValues={{ selectedPlan: plans[0] }}
-      onSubmit={async (data) =>
-        console.log({
-          selectedPlansTitle: data.selectedPlan.title,
-          selectedPlansPrice: data.selectedPlan.price,
-        })
-      }
+      defaultValues={{
+        customMaterialsAmount: 0,
+        customReportsAmount: 0,
+        selectedPlansTitle: plans[0].title,
+        selectedPlansPrice: plans[0].price,
+      }}
+      omitFields={["customMaterialsAmount", "customReportsAmount"]}
+      onSubmit={async (data) => console.log(data)}
     >
       <DashboardPageLayout
         title="Select Your Plan"
@@ -62,27 +69,63 @@ const Plans = () => {
 };
 
 const CustomPlan = () => {
+  const { watch } = useFormContext<SelectPlanRequest>();
+
   return (
     <Plan
       plan={{ title: "Custom", price: 0, features: [] }}
       description="Create a custom plan based on my usage so I can pay exactly for what I need."
-    />
+    >
+      <div
+        className={cn(
+          "flex flex-col gap-6",
+          watch("selectedPlansTitle") !== "Custom" && "opacity-0",
+        )}
+      >
+        <ControlledTextField<SelectPlanRequest>
+          name="customMaterialsAmount"
+          label="Materials amount"
+          type="number"
+          saveAsNumber
+        />
+        <ControlledTextField<SelectPlanRequest>
+          name="customReportsAmount"
+          label="Reports amount"
+          type="number"
+          saveAsNumber
+        />
+      </div>
+    </Plan>
   );
 };
 
 const Checkout = () => {
-  const { watch } = useFormContext<SelectPlanRequest>();
+  const { watch, setValue } = useFormContext<SelectPlanRequest>();
+
+  useEffect(() => {
+    if ("Custom" === watch("selectedPlansTitle"))
+      setValue(
+        "selectedPlansPrice",
+        10 +
+          watch("customMaterialsAmount") * unitPriceInEuros +
+          watch("customReportsAmount") * unitPriceInEuros,
+      );
+  }, [
+    watch("selectedPlansTitle"),
+    watch("customMaterialsAmount"),
+    watch("customReportsAmount"),
+  ]);
 
   return (
     <CustomCard
       title="Checkout"
       description="You can pay for the plan you selected above."
       footer={
-        <Submit className="ml-auto">Pay {watch("selectedPlan").price}€</Submit>
+        <Submit className="ml-auto">Pay {watch("selectedPlansPrice")}€</Submit>
       }
       className="col-span-1 mt-6 max-w-full sm:col-span-2 xl:col-span-4"
     >
-      You have selected the "{watch("selectedPlan").title}" plan.
+      You have selected the "{watch("selectedPlansTitle")}" plan.
     </CustomCard>
   );
 };
@@ -94,7 +137,7 @@ interface PlanProps extends Pick<CustomCardProps, "description" | "children"> {
 const Plan: FC<PlanProps> = ({ plan, description, children }) => {
   const { title } = plan;
   const { watch, setValue } = useFormContext<SelectPlanRequest>();
-  const isSelected = title === watch("selectedPlan").title;
+  const isSelected = title === watch("selectedPlansTitle");
 
   return (
     <CustomCard
@@ -102,7 +145,11 @@ const Plan: FC<PlanProps> = ({ plan, description, children }) => {
       description={description}
       footer={
         <Button
-          onClick={() => setValue("selectedPlan", plan)}
+          type="button"
+          onClick={() => {
+            setValue("selectedPlansTitle", plan.title);
+            setValue("selectedPlansPrice", plan.price);
+          }}
           disabled={isSelected}
           className="w-full"
         >

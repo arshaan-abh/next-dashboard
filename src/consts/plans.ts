@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const PlanSchema = z.object({
+const PlanSchema = z.object({
   title: z.string(),
   price: z.number().positive(),
   features: z.array(z.string()),
