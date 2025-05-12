@@ -20,7 +20,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "./shadcn/sidebar";
+} from "../../shadcn/sidebar";
 
 interface User {
   name: string;
