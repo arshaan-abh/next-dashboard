@@ -1,6 +1,11 @@
-import { SquareUser, Building2, CalendarDays } from "lucide-react";
+import { Frame, SquareUser, Building2, CalendarDays } from "lucide-react";
 
 export const sidebarMenuItems = [
+  {
+    title: "Eco Connect",
+    icon: Frame,
+    href: "/dashboard",
+  },
   {
     title: "Profile",
     icon: SquareUser,
