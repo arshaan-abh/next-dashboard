@@ -96,12 +96,12 @@ export default function ProfilePage() {
     >
       <DashboardPageLayout
         title="My Profile"
-        className="grid grid-cols-1 gap-6 md:grid-cols-2"
+        className="grid grid-cols-1 gap-6 lg:grid-cols-2"
       >
         <PersonalInfo />
         <AddressSection />
         <EmergencyContact />
-        <Card className="md:col-span-2">
+        <Card className="lg:col-span-2">
           <CardFooter className="justify-end">
             <Submit disabled={loading}>Save</Submit>
           </CardFooter>
@@ -117,26 +117,31 @@ const PersonalInfo = () => (
     <ControlledTextField<ProfileFormType>
       name="firstName"
       label="First Name"
+      className="text-left"
       required
     />
     <ControlledTextField<ProfileFormType>
       name="middleName"
       label="Middle Name"
+      className="text-left"
     />
     <ControlledTextField<ProfileFormType>
       name="lastName"
       label="Last Name"
+      className="text-left"
       required
     />
     <ControlledTextField<ProfileFormType>
       name="email"
       label="Email"
+      className="text-left"
       required
       disabled
     />
     <ControlledTextField<ProfileFormType>
       name="phoneNumber"
       label="Phone Number"
+      className="text-left"
       required
     />
   </SectionCard>
@@ -170,14 +175,17 @@ const AddressSection = () => {
       <ControlledTextField<ProfileFormType>
         name="addressLine1"
         label="Address Line 1"
+        className="text-left"
         required
       />
       <ControlledTextField<ProfileFormType>
         name="addressLine2"
+        className="text-left"
         label="Address Line 2"
       />
       <ControlledTextField<ProfileFormType>
         name="postalCode"
+        className="text-left"
         label="Postal Code"
         required
       />
@@ -193,11 +201,13 @@ const EmergencyContact = () => (
   >
     <ControlledTextField<ProfileFormType>
       name="contactPersonName"
+      className="text-left"
       label="Contact Person Name"
       required
     />
     <ControlledTextField<ProfileFormType>
       name="contactPersonPhone"
+      className="text-left"
       label="Contact Person Phone"
       required
     />
