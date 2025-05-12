@@ -16,6 +16,7 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 import { toast } from "sonner"; // or any toast lib you're using
 import { useFormContext } from "react-hook-form";
+import { ControlledDropdownField } from "@/components/commons/controlled-dropdown-field";
 
 // --- Schema Definition ---
 const ProfileSchema = z.object({
@@ -49,7 +50,6 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState<ProfileFormType | null>(null);
 
-  // Simulate fetching user profile
   useEffect(() => {
     const fetchProfile = async () => {
       // Replace this with API call
@@ -81,11 +81,13 @@ export default function ProfilePage() {
       defaultValues={profileData}
       onSubmit={async (values) => {
         try {
+          console.log(values);
           setLoading(true);
-          // await updateProfileAPI(values)
-          await new Promise((res) => setTimeout(res, 1000)); // mock
+          await new Promise((res) => setTimeout(res, 1000));
           toast.success("Profile updated successfully.");
         } catch (err) {
+          console.log(err);
+
           toast.error("Unable to save profile. Please try again.");
         } finally {
           setLoading(false);
@@ -101,7 +103,7 @@ export default function ProfilePage() {
         <EmergencyContact />
         <Card className="md:col-span-2">
           <CardFooter className="justify-end">
-            <Submit loading={loading}>Save</Submit>
+            <Submit disabled={loading}>Save</Submit>
           </CardFooter>
         </Card>
       </DashboardPageLayout>
@@ -149,20 +151,19 @@ const AddressSection = () => {
 
   return (
     <SectionCard title="Address" description="Your current address.">
-      <ControlledTextField<ProfileFormType>
+      <ControlledDropdownField<ProfileFormType>
         name="country"
         label="Country"
-        required
-        select
         options={countries.map((c) => ({ value: c.code, label: c.name }))}
       />
       {showState && (
-        <ControlledTextField<ProfileFormType>
+        <ControlledDropdownField<ProfileFormType>
           name="state"
           label="State"
-          required
-          select
-          options={states[country].map((s) => ({ value: s, label: s }))}
+          options={(states[country as keyof typeof states] ?? []).map((s) => ({
+            value: s,
+            label: s,
+          }))}
         />
       )}
       <ControlledTextField<ProfileFormType> name="city" label="City" required />
