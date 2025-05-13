@@ -62,24 +62,25 @@ export const Stepper: FC<StepperProps> = ({
     [canGoNext],
   );
 
-  const prev = useCallback(
-    () =>
-      setCurrentIndex((index) => {
-        if (canGoPrev) {
-          listRefs[index - 1].current.scrollIntoView({
-            inline: "start",
-            behavior: "smooth",
-          });
-          return index - 1;
-        }
-        return index;
-      }),
-    [canGoPrev],
-  );
-
   const isTheLastStep = useMemo(
     () => currentIndex >= indexedSteps.length - 1,
     [currentIndex, indexedSteps.length],
+  );
+
+  const prev = useCallback(
+    () =>
+      setCurrentIndex((index) => {
+        const diff = isTheLastStep ? 2 : 1;
+        if (canGoPrev) {
+          listRefs[index - diff].current.scrollIntoView({
+            inline: "start",
+            behavior: "smooth",
+          });
+          return index - diff;
+        }
+        return index;
+      }),
+    [isTheLastStep, canGoPrev],
   );
 
   return (
@@ -102,6 +103,7 @@ export const Stepper: FC<StepperProps> = ({
                   className={cn(
                     "min-w-64 grow snap-start justify-center py-4",
                     index === currentIndex && "border-primary",
+                    index > currentIndex && "opacity-50",
                     index === 0 && "ml-6",
                     index === indexedSteps.length - 1 && "mr-6",
                   )}
@@ -121,7 +123,12 @@ export const Stepper: FC<StepperProps> = ({
                 </Card>
 
                 {index !== indexedSteps.length - 1 && (
-                  <ChevronRight className="my-auto translate-x-px" />
+                  <ChevronRight
+                    className={cn(
+                      "my-auto translate-x-px",
+                      index > currentIndex && "opacity-50",
+                    )}
+                  />
                 )}
               </Fragment>
             ))}

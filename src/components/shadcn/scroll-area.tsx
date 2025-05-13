@@ -25,8 +25,8 @@ function ScrollArea({
       >
         {fadeEdges && (
           <>
-            <div className="from-background pointer-events-none absolute left-0 h-full w-6 bg-gradient-to-r to-transparent" />
-            <div className="from-background pointer-events-none absolute right-0 h-full w-6 bg-gradient-to-l to-transparent" />
+            <div className="from-background pointer-events-none absolute left-0 z-10 h-full w-6 bg-gradient-to-r to-transparent" />
+            <div className="from-background pointer-events-none absolute right-0 z-10 h-full w-6 bg-gradient-to-l to-transparent" />
           </>
         )}
         {children}
