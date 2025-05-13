@@ -5,6 +5,7 @@ interface StepperContextType {
   prev: () => void;
   canGoNext: boolean;
   canGoPrev: boolean;
+  isTheLastStep: boolean;
 }
 
 export const initialStepperContext: StepperContextType = {
@@ -12,6 +13,7 @@ export const initialStepperContext: StepperContextType = {
   prev: () => {},
   canGoNext: true,
   canGoPrev: false,
+  isTheLastStep: false,
 };
 
 export const StepperContext = createContext<StepperContextType>(

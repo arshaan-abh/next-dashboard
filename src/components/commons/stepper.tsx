@@ -14,6 +14,7 @@ import {
 } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "../shadcn/card";
 import { ScrollArea, ScrollBar } from "../shadcn/scroll-area";
+import { useListRefs } from "@/hooks/use-list-refs";
 
 interface Step {
   title: ReactNode;
@@ -44,18 +45,47 @@ export const Stepper: FC<StepperProps> = ({
 
   const canGoPrev = useMemo(() => currentIndex > 0, [currentIndex]);
 
+  const listRefs = useListRefs<HTMLDivElement>(indexedSteps.length);
+
   const next = useCallback(
-    () => setCurrentIndex((index) => (canGoNext ? index + 1 : index)),
+    () =>
+      setCurrentIndex((index) => {
+        if (canGoNext) {
+          listRefs[index + 1]?.current.scrollIntoView({
+            inline: "start",
+            behavior: "smooth",
+          });
+          return index + 1;
+        }
+        return index;
+      }),
     [canGoNext],
   );
 
   const prev = useCallback(
-    () => setCurrentIndex((index) => (canGoPrev ? index - 1 : index)),
+    () =>
+      setCurrentIndex((index) => {
+        if (canGoPrev) {
+          listRefs[index - 1].current.scrollIntoView({
+            inline: "start",
+            behavior: "smooth",
+          });
+          return index - 1;
+        }
+        return index;
+      }),
     [canGoPrev],
   );
 
+  const isTheLastStep = useMemo(
+    () => currentIndex >= indexedSteps.length - 1,
+    [currentIndex, indexedSteps.length],
+  );
+
   return (
-    <StepperContext.Provider value={{ next, prev, canGoNext, canGoPrev }}>
+    <StepperContext.Provider
+      value={{ next, prev, canGoNext, canGoPrev, isTheLastStep }}
+    >
       <div className={cn("flex flex-col", className)} {...otherDivProps}>
         <ScrollArea
           className="pb-2 [&_[data-slot=scroll-area-viewport]]:snap-x [&_[data-slot=scroll-area-viewport]]:snap-mandatory [&_[data-slot=scroll-area-viewport]]:scroll-px-6"
@@ -75,6 +105,7 @@ export const Stepper: FC<StepperProps> = ({
                     index === 0 && "ml-6",
                     index === indexedSteps.length - 1 && "mr-6",
                   )}
+                  ref={listRefs[index]}
                 >
                   <CardHeader className="flex items-center gap-3">
                     {index < currentIndex ? (
