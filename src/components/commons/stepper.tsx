@@ -57,7 +57,10 @@ export const Stepper: FC<StepperProps> = ({
   return (
     <StepperContext.Provider value={{ next, prev, canGoNext, canGoPrev }}>
       <div className={cn("flex flex-col", className)} {...otherDivProps}>
-        <ScrollArea className="pb-2" fadeEdges>
+        <ScrollArea
+          className="pb-2 [&_[data-slot=scroll-area-viewport]]:snap-x [&_[data-slot=scroll-area-viewport]]:snap-mandatory [&_[data-slot=scroll-area-viewport]]:scroll-px-6"
+          fadeEdges
+        >
           <ScrollBar
             orientation="horizontal"
             className="h-1 border-none px-6 py-0"
@@ -67,7 +70,7 @@ export const Stepper: FC<StepperProps> = ({
               <Fragment key={index}>
                 <Card
                   className={cn(
-                    "min-w-64 grow justify-center py-4",
+                    "min-w-64 grow snap-start justify-center py-4",
                     index === currentIndex && "border-primary",
                     index === 0 && "ml-6",
                     index === indexedSteps.length - 1 && "mr-6",
