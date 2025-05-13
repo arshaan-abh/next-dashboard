@@ -1,0 +1,102 @@
+"use client";
+
+import { StepperContext } from "@/consts/stepper-context";
+import { cn } from "@/utils/cn";
+import { CircleCheckBig, Circle, ChevronRight } from "lucide-react";
+import {
+  ReactNode,
+  ComponentProps,
+  FC,
+  useMemo,
+  useState,
+  useCallback,
+  Fragment,
+} from "react";
+import { Card, CardHeader, CardTitle, CardDescription } from "../shadcn/card";
+import { ScrollArea, ScrollBar } from "../shadcn/scroll-area";
+
+interface Step {
+  title: ReactNode;
+  description: ReactNode;
+  content: ReactNode;
+}
+
+interface StepperProps extends ComponentProps<"div"> {
+  steps: Step[];
+}
+
+export const Stepper: FC<StepperProps> = ({
+  steps,
+  className,
+  ...otherDivProps
+}) => {
+  const indexedSteps = useMemo(
+    () => steps.map((step, index) => ({ ...step, index })),
+    [steps],
+  );
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const canGoNext = useMemo(
+    () => currentIndex < indexedSteps.length,
+    [currentIndex, indexedSteps.length],
+  );
+
+  const canGoPrev = useMemo(() => currentIndex > 0, [currentIndex]);
+
+  const next = useCallback(
+    () => setCurrentIndex((index) => (canGoNext ? index + 1 : index)),
+    [canGoNext],
+  );
+
+  const prev = useCallback(
+    () => setCurrentIndex((index) => (canGoPrev ? index - 1 : index)),
+    [canGoPrev],
+  );
+
+  return (
+    <StepperContext.Provider value={{ next, prev, canGoNext, canGoPrev }}>
+      <div className={cn("flex flex-col", className)} {...otherDivProps}>
+        <ScrollArea className="pb-2" fadeEdges>
+          <ScrollBar
+            orientation="horizontal"
+            className="h-1 border-none px-6 py-0"
+          />
+          <div className="flex gap-4">
+            {indexedSteps.map(({ index, title, description }) => (
+              <Fragment key={index}>
+                <Card
+                  className={cn(
+                    "min-w-64 grow justify-center py-4",
+                    index === currentIndex && "border-primary",
+                    index === 0 && "ml-6",
+                    index === indexedSteps.length - 1 && "mr-6",
+                  )}
+                >
+                  <CardHeader className="flex items-center gap-3">
+                    {index < currentIndex ? (
+                      <CircleCheckBig size={32} className="shrink-0" />
+                    ) : (
+                      <Circle size={32} className="shrink-0" />
+                    )}
+                    <div className="flex flex-col gap-1.5">
+                      <CardTitle>{title}</CardTitle>
+                      <CardDescription>{description}</CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+
+                {index !== indexedSteps.length - 1 && (
+                  <ChevronRight className="my-auto translate-x-px" />
+                )}
+              </Fragment>
+            ))}
+          </div>
+        </ScrollArea>
+
+        {indexedSteps[currentIndex]?.content ??
+          indexedSteps[indexedSteps.length - 1].content}
+      </div>
+    </StepperContext.Provider>
+  );
+};
