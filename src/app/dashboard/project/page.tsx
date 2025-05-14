@@ -78,7 +78,7 @@ export default function StructureProject() {
             {
               title: "Project Details",
               description: "Fourth step",
-              content: <StepperContentCard fieldNames={[]} />,
+              content: <ProjectDetailsStep />,
             },
             {
               title: "Material Selection",
@@ -168,6 +168,17 @@ const LifespanDefinitionStep = () => {
         saveAsNumber
       />
     </StepperContentCard>
+  );
+};
+
+// Fourth step
+const ProjectDetailsStep = () => {
+  return (
+    <StepperContentCard
+      cardTitle="Project Details"
+      cardDescription="Enter detailed characteristics of my building project including type and area."
+      fieldNames={[]}
+    ></StepperContentCard>
   );
 };
 
