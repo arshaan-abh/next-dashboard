@@ -11,6 +11,7 @@ import {
 } from "react-hook-form";
 import { ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUnsavedChangesWarning } from "@/hooks/use-unsaved-changes-warning";
 
 interface FormProps<FinalData extends FieldValues> {
   children?: ReactNode;
@@ -19,6 +20,7 @@ interface FormProps<FinalData extends FieldValues> {
   omitFields?: (keyof FinalData)[];
   confirmDialog?: Omit<Dialog, "open" | "onConfirm" | "onDecline">;
   onSubmit?: (finalData: FinalData) => Promise<void>;
+  showUnsavedChangesWarning?: boolean;
 }
 
 export const Form = <FinalData extends FieldValues>({
@@ -28,11 +30,16 @@ export const Form = <FinalData extends FieldValues>({
   omitFields,
   confirmDialog,
   onSubmit,
+  showUnsavedChangesWarning,
 }: FormProps<FinalData>) => {
   const { handleSubmit, control, ...others } = useForm<FinalData>({
     resolver: zodResolver(zodSchema),
     defaultValues: defaultValues as DefaultValues<FinalData>,
   });
+
+  useUnsavedChangesWarning(
+    showUnsavedChangesWarning ? others.formState.isDirty : false,
+  );
 
   const [, setDialog] = useContext(DialogContext);
 

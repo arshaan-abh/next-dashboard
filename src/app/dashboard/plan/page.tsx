@@ -22,8 +22,8 @@ import { ControlledTextField } from "@/components/commons/controlled-text-field"
 const unitPriceInEuros = 1;
 
 const SelectPlanRequestSchema = z.object({
-  customMaterialsAmount: z.number().positive(),
-  customReportsAmount: z.number().positive(),
+  customMaterialsAmount: z.number().positive().optional(),
+  customReportsAmount: z.number().positive().optional(),
   selectedPlansTitle: z.string(),
   selectedPlansPrice: z.number().positive(),
 });
@@ -76,25 +76,22 @@ const CustomPlan = () => {
       plan={{ title: "Custom", price: 0, features: [] }}
       description="Create a custom plan based on my usage so I can pay exactly for what I need."
     >
-      <div
-        className={cn(
-          "flex flex-col gap-6",
-          watch("selectedPlansTitle") !== "Custom" && "opacity-0",
-        )}
-      >
-        <ControlledTextField<SelectPlanRequest>
-          name="customMaterialsAmount"
-          label="Materials amount"
-          type="number"
-          saveAsNumber
-        />
-        <ControlledTextField<SelectPlanRequest>
-          name="customReportsAmount"
-          label="Reports amount"
-          type="number"
-          saveAsNumber
-        />
-      </div>
+      {watch("selectedPlansTitle") === "Custom" && (
+        <div className="flex flex-col gap-6">
+          <ControlledTextField<SelectPlanRequest>
+            name="customMaterialsAmount"
+            label="Materials amount"
+            type="number"
+            saveAsNumber
+          />
+          <ControlledTextField<SelectPlanRequest>
+            name="customReportsAmount"
+            label="Reports amount"
+            type="number"
+            saveAsNumber
+          />
+        </div>
+      )}
     </Plan>
   );
 };
@@ -107,14 +104,24 @@ const Checkout = () => {
       setValue(
         "selectedPlansPrice",
         10 +
-          watch("customMaterialsAmount") * unitPriceInEuros +
-          watch("customReportsAmount") * unitPriceInEuros,
+          (watch("customMaterialsAmount") ?? 0) * unitPriceInEuros +
+          (watch("customReportsAmount") ?? 0) * unitPriceInEuros,
       );
   }, [
     watch("selectedPlansTitle"),
     watch("customMaterialsAmount"),
     watch("customReportsAmount"),
   ]);
+
+  useEffect(() => {
+    if ("Custom" === watch("selectedPlansTitle")) {
+      setValue("customMaterialsAmount", 0);
+      setValue("customReportsAmount", 0);
+    } else {
+      setValue("customMaterialsAmount", undefined);
+      setValue("customReportsAmount", undefined);
+    }
+  }, [watch("selectedPlansTitle")]);
 
   return (
     <CustomCard

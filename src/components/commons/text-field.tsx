@@ -52,9 +52,9 @@ export const TextField: FC<TextFieldProps> = ({
       number: "ltr",
       email: "ltr",
       password: "ltr",
-      search: "rtl",
+      search: "ltr", // rtl if rtl
       tel: "ltr",
-      text: "rtl",
+      text: "ltr", // rtl if rtl
       url: "ltr",
     }),
     [],
