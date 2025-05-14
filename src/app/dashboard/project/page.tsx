@@ -1,6 +1,7 @@
 "use client";
 
 import { ControlledCheckbox } from "@/components/commons/controlled-checkbox";
+import { ControlledSlider } from "@/components/commons/controlled-slider";
 import { ControlledTextField } from "@/components/commons/controlled-text-field";
 import { Form } from "@/components/commons/form";
 import { Stepper } from "@/components/commons/stepper";
@@ -29,6 +30,8 @@ const StructureProjectSchema = z
     serviceOne: z.boolean(),
     serviceTwo: z.boolean(),
     serviceThree: z.boolean(),
+
+    lifespan: z.number().positive(),
   })
   .refine((data) => data.serviceOne || data.serviceTwo || data.serviceThree, {
     message: "At least one service must be selected",
@@ -48,6 +51,8 @@ export default function StructureProject() {
         serviceOne: false,
         serviceTwo: false,
         serviceThree: false,
+
+        lifespan: 0,
       }}
       onSubmit={async (data) => console.log(data)}
       showUnsavedChangesWarning
@@ -68,7 +73,7 @@ export default function StructureProject() {
             {
               title: "Lifespan Definition",
               description: "Third step",
-              content: <StepperContentCard fieldNames={[]} />,
+              content: <LifespanDefinitionStep />,
             },
             {
               title: "Project Details",
@@ -141,6 +146,26 @@ const FunctionsSelectionStep = () => {
         name="serviceThree"
         label="Service Three"
         description="Description of service three"
+      />
+    </StepperContentCard>
+  );
+};
+
+// Third step
+const LifespanDefinitionStep = () => {
+  return (
+    <StepperContentCard
+      cardTitle="Lifespan Definition"
+      cardDescription="Define the expected lifespan of my building."
+      fieldNames={["lifespan"]}
+    >
+      <ControlledSlider<StructureProjectRequest>
+        name="lifespan"
+        unit="Years"
+        min={0}
+        step={1}
+        max={100}
+        saveAsNumber
       />
     </StepperContentCard>
   );

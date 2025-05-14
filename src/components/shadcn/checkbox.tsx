@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { CheckIcon } from "lucide-react";
-
+import { HelperText } from "../commons/helper-text";
 import { cn } from "@/utils/cn";
 
 interface CheckboxProps
@@ -19,6 +19,7 @@ function Checkbox({
   description,
   helperText,
   hasError,
+  disabled,
   className,
   ...props
 }: CheckboxProps) {
@@ -47,9 +48,13 @@ function Checkbox({
         </div>
       </div>
 
-      <div className={cn("text-sm", hasError && "text-red-500")}>
-        {helperText}
-      </div>
+      {helperText && (
+        <HelperText
+          className={cn(disabled && "opacity-70", hasError && "text-red-500")}
+        >
+          {helperText}
+        </HelperText>
+      )}
     </label>
   );
 }
