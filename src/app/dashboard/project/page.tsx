@@ -1,6 +1,7 @@
 "use client";
 
 import { ControlledCheckbox } from "@/components/commons/controlled-checkbox";
+import { ControlledCustomSelect } from "@/components/commons/controlled-custom-select";
 import { ControlledSlider } from "@/components/commons/controlled-slider";
 import { ControlledTextField } from "@/components/commons/controlled-text-field";
 import { Form } from "@/components/commons/form";
@@ -32,6 +33,12 @@ const StructureProjectSchema = z
     serviceThree: z.boolean(),
 
     lifespan: z.number().positive(),
+
+    buildingType: z.union([z.literal("new-building"), z.literal("renovation")]),
+    netFloorArea: z.number().positive(),
+    usableArea: z.number().positive(),
+    grossFloorArea: z.number().positive(),
+    propertyArea: z.number().positive(),
   })
   .refine((data) => data.serviceOne || data.serviceTwo || data.serviceThree, {
     message: "At least one service must be selected",
@@ -53,6 +60,12 @@ export default function StructureProject() {
         serviceThree: false,
 
         lifespan: 0,
+
+        buildingType: "new-building",
+        netFloorArea: 0,
+        usableArea: 0,
+        grossFloorArea: 0,
+        propertyArea: 0,
       }}
       onSubmit={async (data) => console.log(data)}
       showUnsavedChangesWarning
@@ -177,8 +190,47 @@ const ProjectDetailsStep = () => {
     <StepperContentCard
       cardTitle="Project Details"
       cardDescription="Enter detailed characteristics of my building project including type and area."
-      fieldNames={[]}
-    ></StepperContentCard>
+      fieldNames={[
+        "buildingType",
+        "netFloorArea",
+        "usableArea",
+        "grossFloorArea",
+        "propertyArea",
+      ]}
+    >
+      <ControlledCustomSelect<StructureProjectRequest>
+        name="buildingType"
+        label="Building type"
+        options={[
+          { children: "New building", value: "new-building" },
+          { children: "Renovation", value: "renovation" },
+        ]}
+      />
+      <ControlledTextField<StructureProjectRequest>
+        name="netFloorArea"
+        type="number"
+        label="Net floor area"
+        saveAsNumber
+      />
+      <ControlledTextField<StructureProjectRequest>
+        name="usableArea"
+        type="number"
+        label="Usable area"
+        saveAsNumber
+      />
+      <ControlledTextField<StructureProjectRequest>
+        name="grossFloorArea"
+        type="number"
+        label="Gross floor area"
+        saveAsNumber
+      />
+      <ControlledTextField<StructureProjectRequest>
+        name="propertyArea"
+        type="number"
+        label="Property area"
+        saveAsNumber
+      />
+    </StepperContentCard>
   );
 };
 
