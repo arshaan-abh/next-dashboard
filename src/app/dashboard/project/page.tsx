@@ -1,5 +1,6 @@
 "use client";
 
+import { ControlledCheckbox } from "@/components/commons/controlled-checkbox";
 import { ControlledTextField } from "@/components/commons/controlled-text-field";
 import { Form } from "@/components/commons/form";
 import { Stepper } from "@/components/commons/stepper";
@@ -19,18 +20,35 @@ import { ComponentProps, FC, ReactNode, useContext } from "react";
 import { Path, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
-const StructureProjectSchema = z.object({
-  address: z.string().min(1),
-  postalCode: z.string().min(1),
-  city: z.string().min(1),
-});
+const StructureProjectSchema = z
+  .object({
+    address: z.string().min(1),
+    postalCode: z.string().min(1),
+    city: z.string().min(1),
+
+    serviceOne: z.boolean(),
+    serviceTwo: z.boolean(),
+    serviceThree: z.boolean(),
+  })
+  .refine((data) => data.serviceOne || data.serviceTwo || data.serviceThree, {
+    message: "At least one service must be selected",
+    path: ["serviceOne"],
+  });
 type StructureProjectRequest = z.infer<typeof StructureProjectSchema>;
 
 export default function StructureProject() {
   return (
     <Form<StructureProjectRequest>
       zodSchema={StructureProjectSchema}
-      defaultValues={{ address: "", postalCode: "", city: "" }}
+      defaultValues={{
+        address: "",
+        postalCode: "",
+        city: "",
+
+        serviceOne: false,
+        serviceTwo: false,
+        serviceThree: false,
+      }}
       onSubmit={async (data) => console.log(data)}
       showUnsavedChangesWarning
     >
@@ -45,7 +63,7 @@ export default function StructureProject() {
             {
               title: "Functions Selection",
               description: "Second step",
-              content: <StepperContentCard fieldNames={[]} />,
+              content: <FunctionsSelectionStep />,
             },
             {
               title: "Lifespan Definition",
@@ -96,6 +114,33 @@ const LocationStep = () => {
         name="city"
         label="City"
         placeholder="Berlin etc."
+      />
+    </StepperContentCard>
+  );
+};
+
+// Second step
+const FunctionsSelectionStep = () => {
+  return (
+    <StepperContentCard
+      cardTitle="Functions Selection"
+      cardDescription="Choose which house-building services apply to my project."
+      fieldNames={["serviceOne", "serviceTwo", "serviceThree"]}
+    >
+      <ControlledCheckbox<StructureProjectRequest>
+        name="serviceOne"
+        label="Service One"
+        description="Description of service one"
+      />
+      <ControlledCheckbox<StructureProjectRequest>
+        name="serviceTwo"
+        label="Service Two"
+        description="Description of service two"
+      />
+      <ControlledCheckbox<StructureProjectRequest>
+        name="serviceThree"
+        label="Service Three"
+        description="Description of service three"
       />
     </StepperContentCard>
   );
