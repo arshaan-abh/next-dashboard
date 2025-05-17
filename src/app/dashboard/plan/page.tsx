@@ -97,27 +97,29 @@ const CustomPlan = () => {
 };
 
 const Checkout = () => {
-  const { control, watch, setValue } = useFormContext<SelectPlanRequest>();
+  const { control, setValue } = useFormContext<SelectPlanRequest>();
   const [
     watchedSelectedPlansTitle,
     watchedCustomMaterialsAmount,
     watchedCustomReportsAmount,
+    watchedSelectedPlansPrice,
   ] = useWatch({
     control,
     name: [
       "selectedPlansTitle",
       "customMaterialsAmount",
       "customReportsAmount",
+      "selectedPlansPrice",
     ],
   });
 
   useEffect(() => {
-    if ("Custom" === watch("selectedPlansTitle"))
+    if ("Custom" === watchedSelectedPlansTitle)
       setValue(
         "selectedPlansPrice",
         10 +
-          (watch("customMaterialsAmount") ?? 0) * unitPriceInEuros +
-          (watch("customReportsAmount") ?? 0) * unitPriceInEuros,
+          (watchedCustomMaterialsAmount ?? 0) * unitPriceInEuros +
+          (watchedCustomReportsAmount ?? 0) * unitPriceInEuros,
       );
   }, [
     watchedSelectedPlansTitle,
@@ -127,7 +129,7 @@ const Checkout = () => {
   ]);
 
   useEffect(() => {
-    if ("Custom" === watch("selectedPlansTitle")) {
+    if ("Custom" === watchedSelectedPlansTitle) {
       setValue("customMaterialsAmount", 0);
       setValue("customReportsAmount", 0);
     } else {
@@ -141,11 +143,11 @@ const Checkout = () => {
       title="Checkout"
       description="You can pay for the plan you selected above."
       footer={
-        <Submit className="ml-auto">Pay {watch("selectedPlansPrice")}€</Submit>
+        <Submit className="ml-auto">Pay {watchedSelectedPlansPrice}€</Submit>
       }
       className="col-span-1 mt-6 max-w-full sm:col-span-2 xl:col-span-4"
     >
-      You have selected the &quot;{watch("selectedPlansTitle")}&quot; plan.
+      You have selected the &quot;{watchedSelectedPlansTitle}&quot; plan.
     </CustomCard>
   );
 };

@@ -287,7 +287,7 @@ const ProjectDetailsStep = () => {
 
 // Fifth step
 const MaterialSelectionStep = () => {
-  const { control, watch, trigger } = useFormContext<StructureProjectRequest>();
+  const { control, trigger } = useFormContext<StructureProjectRequest>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "materials",
@@ -306,9 +306,9 @@ const MaterialSelectionStep = () => {
         (isValid) => {
           if (isValid) {
             append({
-              buildingElement: watch("buildingElementTemp"),
-              quantity: watch("quantityTemp"),
-              material: watch("materialTemp"),
+              buildingElement: watchedBuildingElementTemp,
+              quantity: watchedQuantityTemp,
+              material: watchedMaterialTemp,
             });
             setIsDialogOpen(false);
           }
