@@ -46,7 +46,7 @@ import {
   useContext,
   useState,
 } from "react";
-import { Path, useFieldArray, useFormContext } from "react-hook-form";
+import { Path, useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 const MaterialSchema = z.object({
@@ -292,6 +292,11 @@ const MaterialSelectionStep = () => {
     control,
     name: "materials",
   });
+  const [watchedBuildingElementTemp, watchedQuantityTemp, watchedMaterialTemp] =
+    useWatch({
+      control,
+      name: ["buildingElementTemp", "quantityTemp", "materialTemp"],
+    });
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -309,7 +314,13 @@ const MaterialSelectionStep = () => {
           }
         },
       ),
-    [trigger, append, watch],
+    [
+      trigger,
+      append,
+      watchedBuildingElementTemp,
+      watchedQuantityTemp,
+      watchedMaterialTemp,
+    ],
   );
 
   return (

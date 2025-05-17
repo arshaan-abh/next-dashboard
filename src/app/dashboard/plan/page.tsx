@@ -16,7 +16,7 @@ import {
 import { plans } from "@/consts/plans";
 import { cn } from "@/utils/cn";
 import { ComponentProps, FC, ReactNode, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 const unitPriceInEuros = 1;
@@ -97,7 +97,19 @@ const CustomPlan = () => {
 };
 
 const Checkout = () => {
-  const { watch, setValue } = useFormContext<SelectPlanRequest>();
+  const { control, watch, setValue } = useFormContext<SelectPlanRequest>();
+  const [
+    watchedSelectedPlansTitle,
+    watchedCustomMaterialsAmount,
+    watchedCustomReportsAmount,
+  ] = useWatch({
+    control,
+    name: [
+      "selectedPlansTitle",
+      "customMaterialsAmount",
+      "customReportsAmount",
+    ],
+  });
 
   useEffect(() => {
     if ("Custom" === watch("selectedPlansTitle"))
@@ -107,7 +119,12 @@ const Checkout = () => {
           (watch("customMaterialsAmount") ?? 0) * unitPriceInEuros +
           (watch("customReportsAmount") ?? 0) * unitPriceInEuros,
       );
-  }, [watch, setValue]);
+  }, [
+    watchedSelectedPlansTitle,
+    watchedCustomMaterialsAmount,
+    watchedCustomReportsAmount,
+    setValue,
+  ]);
 
   useEffect(() => {
     if ("Custom" === watch("selectedPlansTitle")) {
@@ -117,7 +134,7 @@ const Checkout = () => {
       setValue("customMaterialsAmount", undefined);
       setValue("customReportsAmount", undefined);
     }
-  }, [watch, setValue]);
+  }, [watchedSelectedPlansTitle, setValue]);
 
   return (
     <CustomCard
