@@ -10,18 +10,54 @@ import { DashboardPageLayout } from "@/components/pages/dashboard/dashboard-page
 import { Button } from "@/components/shadcn/button";
 import {
   Card,
+  CardAction,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
 } from "@/components/shadcn/card";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/shadcn/dialog";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/shadcn/table";
 import { StepperContext } from "@/consts/stepper-context";
 import { cn } from "@/utils/cn";
-import { ComponentProps, FC, ReactNode, useContext } from "react";
-import { Path, useFormContext } from "react-hook-form";
+import { Eraser, Plus } from "lucide-react";
+import {
+  ComponentProps,
+  FC,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import { Path, useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
+const MaterialSchema = z.object({
+  buildingElement: z.union([z.literal("floor"), z.literal("roof")]),
+  quantity: z.number().positive(),
+  material: z.union([
+    z.literal("concrete"),
+    z.literal("wood"),
+    z.literal("plaster"),
+  ]),
+});
 const StructureProjectSchema = z
   .object({
     address: z.string().min(1),
@@ -39,6 +75,15 @@ const StructureProjectSchema = z
     usableArea: z.number().positive(),
     grossFloorArea: z.number().positive(),
     propertyArea: z.number().positive(),
+
+    materials: z.array(MaterialSchema).min(1),
+    buildingElementTemp: z.union([z.literal("floor"), z.literal("roof")]),
+    quantityTemp: z.number().positive(),
+    materialTemp: z.union([
+      z.literal("concrete"),
+      z.literal("wood"),
+      z.literal("plaster"),
+    ]),
   })
   .refine((data) => data.serviceOne || data.serviceTwo || data.serviceThree, {
     message: "At least one service must be selected",
@@ -66,9 +111,15 @@ export default function StructureProject() {
         usableArea: 0,
         grossFloorArea: 0,
         propertyArea: 0,
+
+        materials: [],
+        buildingElementTemp: "floor",
+        quantityTemp: 0,
+        materialTemp: "concrete",
       }}
+      omitFields={["buildingElementTemp", "quantityTemp", "materialTemp"]}
       onSubmit={async (data) => console.log(data)}
-      showUnsavedChangesWarning
+      // showUnsavedChangesWarning
     >
       <DashboardPageLayout title="Structure Your Project" className="px-0">
         <Stepper
@@ -96,7 +147,7 @@ export default function StructureProject() {
             {
               title: "Material Selection",
               description: "Fifth step",
-              content: <StepperContentCard fieldNames={[]} />,
+              content: <MaterialSelectionStep />,
             },
             {
               title: "Budget Management and Summary",
@@ -230,6 +281,145 @@ const ProjectDetailsStep = () => {
         label="Property area"
         saveAsNumber
       />
+    </StepperContentCard>
+  );
+};
+
+// Fifth step
+const MaterialSelectionStep = () => {
+  const { control, watch, trigger } = useFormContext<StructureProjectRequest>();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "materials",
+  });
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const add = useCallback(
+    () =>
+      trigger(["buildingElementTemp", "quantityTemp", "materialTemp"]).then(
+        (isValid) => {
+          if (isValid) {
+            append({
+              buildingElement: watch("buildingElementTemp"),
+              quantity: watch("quantityTemp"),
+              material: watch("materialTemp"),
+            });
+            setIsDialogOpen(false);
+          }
+        },
+      ),
+    [
+      trigger,
+      append,
+      watch("buildingElementTemp"),
+      watch("quantityTemp"),
+      watch("materialTemp"),
+    ],
+  );
+
+  return (
+    <StepperContentCard
+      cardTitle="Material Selection"
+      cardDescription="Specify materials for different parts of the building by adding rows of detailed inputs."
+      fieldNames={["materials"]}
+    >
+      <div className="flex flex-col gap-2">
+        <Table>
+          <TableCaption>
+            Here you can specify your desired materials.
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Building Element</TableHead>
+              <TableHead>Quantity (m²)</TableHead>
+              <TableHead>Material</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {fields.map(
+              ({ id, buildingElement, quantity, material }, index) => (
+                <TableRow key={id}>
+                  <TableCell>{buildingElement}</TableCell>
+                  <TableCell>{quantity}</TableCell>
+                  <TableCell>{material}</TableCell>
+                  <TableCell className="flex items-center justify-end gap-2">
+                    <Button
+                      onClick={() => remove(index)}
+                      variant="secondary"
+                      size="icon"
+                      className="size-8"
+                    >
+                      <Eraser />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ),
+            )}
+            {fields.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <span className="text-muted-foreground">
+                    No materials added yet
+                  </span>
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button type="button" variant="outline" className="w-full">
+              <Plus />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New Material</DialogTitle>
+              <DialogDescription>
+                Here you can specify your desired materials.
+              </DialogDescription>
+            </DialogHeader>
+
+            <ControlledCustomSelect<StructureProjectRequest>
+              name="buildingElementTemp"
+              label="Building element"
+              options={[
+                { value: "floor", children: "Floor" },
+                { value: "roof", children: "Roof" },
+              ]}
+            />
+            <ControlledTextField<StructureProjectRequest>
+              name="quantityTemp"
+              type="number"
+              label="Quantity (m²)"
+              saveAsNumber
+            />
+            <ControlledCustomSelect<StructureProjectRequest>
+              name="materialTemp"
+              label="Material"
+              options={[
+                { value: "concrete", children: "Concrete" },
+                { value: "wood", children: "Wood" },
+                { value: "plaster", children: "Plaster" },
+              ]}
+            />
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="button" onClick={add}>
+                Add
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
     </StepperContentCard>
   );
 };
