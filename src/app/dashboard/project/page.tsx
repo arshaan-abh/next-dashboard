@@ -521,7 +521,8 @@ const CustomDialog: FC<CustomDialogProps> = ({
 
   useEffect(() => {
     if (isOpen === true) onOpen?.();
-  }, [isOpen, onOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen} {...dialogProps}>
