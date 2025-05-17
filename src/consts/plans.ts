@@ -1,13 +1,11 @@
-import { z } from "zod";
+interface Plan {
+  title: string;
+  price: number;
+  features: string[];
+  recommended?: boolean;
+}
 
-const PlanSchema = z.object({
-  title: z.string(),
-  price: z.number().positive(),
-  features: z.array(z.string()),
-  recommended: z.boolean().optional(),
-});
-
-export const plans: z.infer<typeof PlanSchema>[] = [
+export const plans: Plan[] = [
   {
     title: "One Time",
     price: 20,

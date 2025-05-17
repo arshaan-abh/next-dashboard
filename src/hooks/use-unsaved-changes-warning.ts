@@ -1,5 +1,6 @@
 "use client";
 
+import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -70,7 +71,7 @@ export const useUnsavedChangesWarning = (hasUnsavedChanges: boolean) => {
   // Override router.push (programmatic navigation)
   useEffect(() => {
     const originalPush = router.push;
-    const customPush = (url: string, options?: any) => {
+    const customPush = (url: string, options?: NavigateOptions) => {
       if (hasUnsavedChanges) {
         const confirmLeave = window.confirm(
           "You have unsaved changes. Leave this page?",
@@ -81,10 +82,8 @@ export const useUnsavedChangesWarning = (hasUnsavedChanges: boolean) => {
       originalPush(url, options);
     };
 
-    // @ts-ignore
     router.push = customPush;
     return () => {
-      // @ts-ignore
       router.push = originalPush;
     };
   }, [hasUnsavedChanges, router]);

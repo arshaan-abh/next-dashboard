@@ -1,20 +1,20 @@
 "use client";
 
 import { StepperContext } from "@/consts/stepper-context";
+import { useListRefs } from "@/hooks/use-list-refs";
 import { cn } from "@/utils/cn";
-import { CircleCheckBig, Circle, ChevronRight } from "lucide-react";
+import { ChevronRight, Circle, CircleCheckBig } from "lucide-react";
 import {
-  ReactNode,
   ComponentProps,
   FC,
+  Fragment,
+  ReactNode,
+  useCallback,
   useMemo,
   useState,
-  useCallback,
-  Fragment,
 } from "react";
-import { Card, CardHeader, CardTitle, CardDescription } from "../shadcn/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "../shadcn/card";
 import { ScrollArea, ScrollBar } from "../shadcn/scroll-area";
-import { useListRefs } from "@/hooks/use-list-refs";
 
 interface Step {
   title: ReactNode;
@@ -59,7 +59,7 @@ export const Stepper: FC<StepperProps> = ({
         }
         return index;
       }),
-    [canGoNext],
+    [canGoNext, listRefs],
   );
 
   const isTheLastStep = useMemo(
@@ -80,7 +80,7 @@ export const Stepper: FC<StepperProps> = ({
         }
         return index;
       }),
-    [isTheLastStep, canGoPrev],
+    [isTheLastStep, canGoPrev, listRefs],
   );
 
   return (

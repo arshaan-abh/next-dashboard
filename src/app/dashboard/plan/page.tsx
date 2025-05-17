@@ -107,11 +107,7 @@ const Checkout = () => {
           (watch("customMaterialsAmount") ?? 0) * unitPriceInEuros +
           (watch("customReportsAmount") ?? 0) * unitPriceInEuros,
       );
-  }, [
-    watch("selectedPlansTitle"),
-    watch("customMaterialsAmount"),
-    watch("customReportsAmount"),
-  ]);
+  }, [watch, setValue]);
 
   useEffect(() => {
     if ("Custom" === watch("selectedPlansTitle")) {
@@ -121,7 +117,7 @@ const Checkout = () => {
       setValue("customMaterialsAmount", undefined);
       setValue("customReportsAmount", undefined);
     }
-  }, [watch("selectedPlansTitle")]);
+  }, [watch, setValue]);
 
   return (
     <CustomCard
@@ -132,7 +128,7 @@ const Checkout = () => {
       }
       className="col-span-1 mt-6 max-w-full sm:col-span-2 xl:col-span-4"
     >
-      You have selected the "{watch("selectedPlansTitle")}" plan.
+      You have selected the &quot;{watch("selectedPlansTitle")}&quot; plan.
     </CustomCard>
   );
 };

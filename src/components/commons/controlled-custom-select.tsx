@@ -7,12 +7,11 @@ import { CustomSelect } from "./custom-select";
 interface ControlledSelectProps<T extends FieldValues>
   extends ComponentProps<typeof CustomSelect> {
   name: Path<T>;
-  saveAsNumber?: boolean;
 }
 
 export const ControlledCustomSelect = <T extends FieldValues>({
   name,
-  saveAsNumber,
+  helperText,
   ...otherCustomSelectProps
 }: ControlledSelectProps<T>) => {
   const { control } = useFormContext();
@@ -28,6 +27,8 @@ export const ControlledCustomSelect = <T extends FieldValues>({
         <CustomSelect
           value={value}
           onValueChange={onChange}
+          helperText={error?.message ?? helperText}
+          hasError={error ? true : false}
           {...otherCustomSelectProps}
           {...otherFieldProps}
         />

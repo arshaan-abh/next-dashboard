@@ -309,13 +309,7 @@ const MaterialSelectionStep = () => {
           }
         },
       ),
-    [
-      trigger,
-      append,
-      watch("buildingElementTemp"),
-      watch("quantityTemp"),
-      watch("materialTemp"),
-    ],
+    [trigger, append, watch],
   );
 
   return (
