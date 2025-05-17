@@ -1,7 +1,5 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/shadcn/button";
 import {
   DropdownMenu,
@@ -9,7 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import { FC, ComponentProps } from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { ComponentProps, FC } from "react";
 
 export const ThemeToggle: FC<ComponentProps<typeof Button>> = (buttonProps) => {
   const { setTheme } = useTheme();

@@ -1,8 +1,8 @@
 "use client";
 
 import { Slider } from "@/components/shadcn/slider";
-import { ComponentProps, useCallback, FormEvent } from "react";
-import { FieldValues, Path, useFormContext, Controller } from "react-hook-form";
+import { ComponentProps, FormEvent, useCallback } from "react";
+import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 
 interface ControlledSliderProps<T extends FieldValues>
   extends ComponentProps<typeof Slider> {

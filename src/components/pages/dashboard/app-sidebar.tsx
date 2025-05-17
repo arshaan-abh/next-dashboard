@@ -1,19 +1,19 @@
 import { sidebarMenuItems } from "@/consts/sidebar-menu-items";
 import Link from "next/link";
+import { FC } from "react";
 import { LinkStatus } from "../../commons/link-status";
 import {
   Sidebar,
-  SidebarHeader,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
-  SidebarFooter,
+  SidebarMenuItem,
 } from "../../shadcn/sidebar";
 import { SidebarUser } from "./sidebar-user";
-import { FC } from "react";
 
 export const AppSidebar = () => {
   return (

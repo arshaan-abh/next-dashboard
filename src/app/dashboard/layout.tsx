@@ -1,9 +1,5 @@
 import { AppSidebar } from "@/components/pages/dashboard/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/shadcn/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/shadcn/sidebar";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 

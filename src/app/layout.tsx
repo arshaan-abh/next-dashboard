@@ -1,10 +1,10 @@
+import { DialogProvider } from "@/components/commons/dialog";
+import { ThemeProvider } from "@/components/commons/theme-provider";
+import { Toaster } from "@/components/shadcn/sonner";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
-import { ThemeProvider } from "@/components/commons/theme-provider";
-import { Toaster } from "@/components/shadcn/sonner";
-import { DialogProvider } from "@/components/commons/dialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

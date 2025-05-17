@@ -1,8 +1,8 @@
-import { SidebarTrigger } from "@/components/shadcn/sidebar";
-import { Separator } from "@/components/shadcn/separator";
-import { ReactNode, FC, ComponentProps } from "react";
-import { cn } from "@/utils/cn";
 import { ThemeToggle } from "@/components/commons/theme-toggle";
+import { Separator } from "@/components/shadcn/separator";
+import { SidebarTrigger } from "@/components/shadcn/sidebar";
+import { cn } from "@/utils/cn";
+import { ComponentProps, FC, ReactNode } from "react";
 
 interface DashboardPageLayoutProps extends ComponentProps<"div"> {
   title: string;

@@ -1,25 +1,25 @@
 "use client";
 
-import { getAvatarInitials } from "@/utils/get-avatar-initials";
 import {
   Avatar,
-  AvatarImage,
   AvatarFallback,
+  AvatarImage,
 } from "@/components/shadcn/avatar";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
+import { getAvatarInitials } from "@/utils/get-avatar-initials";
 import { ChevronsUpDown, LogOut } from "lucide-react";
 import {
-  useSidebar,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "../../shadcn/sidebar";
 
 interface User {

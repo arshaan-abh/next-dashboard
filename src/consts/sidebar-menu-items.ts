@@ -1,4 +1,4 @@
-import { Frame, SquareUser, Building2, CalendarDays } from "lucide-react";
+import { Building2, CalendarDays, Frame, SquareUser } from "lucide-react";
 
 export const sidebarMenuItems = [
   {

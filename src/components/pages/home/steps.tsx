@@ -1,8 +1,8 @@
 import Container from "@/components/commons/container";
 import { Title } from "@/components/commons/title";
 import { Typography } from "@/components/commons/typography";
-import Image from "next/image";
 import { MoveRight } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 const items = [

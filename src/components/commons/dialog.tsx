@@ -1,8 +1,8 @@
 "use client";
 
-import { initialDialogContext, DialogContext } from "@/consts/dialog-context";
+import { DialogContext, initialDialogContext } from "@/consts/dialog-context";
 import { cn } from "@/utils/cn";
-import { ReactNode, useState, useCallback } from "react";
+import { ReactNode, useCallback, useState } from "react";
 
 export const DialogProvider = ({ children }: { children: ReactNode }) => {
   const [dialog, setDialog] = useState(initialDialogContext[0]);

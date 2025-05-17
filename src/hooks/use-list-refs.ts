@@ -1,4 +1,4 @@
-import { useRef, RefObject, createRef } from "react";
+import { RefObject, createRef, useRef } from "react";
 
 export const useListRefs = <T>(count: number): RefObject<T>[] => {
   const refs = useRef<RefObject<T>[]>([]);

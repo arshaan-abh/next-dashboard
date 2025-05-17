@@ -2,16 +2,16 @@
 
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 
-import { useState } from "react";
+import { cn } from "@/utils/cn";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../shadcn/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../shadcn/dropdown-menu";
-import { Button } from "../shadcn/button";
-import { cn } from "@/utils/cn";
 
 interface Option {
   label: string;

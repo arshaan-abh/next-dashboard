@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ComponentProps } from "react";
+import { ComponentProps, FC } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../shadcn/button";
 import { Loading } from "./loading";

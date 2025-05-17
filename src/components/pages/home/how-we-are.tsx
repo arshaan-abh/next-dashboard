@@ -1,7 +1,7 @@
-import { Button } from "@/components/shadcn/button";
 import Container from "@/components/commons/container";
 import { Title } from "@/components/commons/title";
 import { Typography } from "@/components/commons/typography";
+import { Button } from "@/components/shadcn/button";
 import Image from "next/image";
 
 const HowWeAre = () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps } from "react";
-import { FieldValues, Path, useFormContext, Controller } from "react-hook-form";
+import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
 import { Checkbox } from "../shadcn/checkbox";
 
 interface ControlledCheckboxProps<T extends FieldValues>

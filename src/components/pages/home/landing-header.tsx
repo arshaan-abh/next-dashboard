@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
 import Container from "@/components/commons/container";
-import Image from "next/image";
 import { Title } from "@/components/commons/title";
 import { Button } from "@/components/shadcn/button";
 import { Mail, Menu, X } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);

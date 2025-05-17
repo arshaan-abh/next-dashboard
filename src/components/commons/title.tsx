@@ -21,8 +21,8 @@
  * ```
  */
 
-import React from "react";
 import { cn } from "@/utils/cn";
+import React from "react";
 
 /**
  * @typedef {"sm" | "md" | "lg" | "xl"} TitleSize
