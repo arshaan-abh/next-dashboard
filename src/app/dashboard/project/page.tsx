@@ -5,6 +5,7 @@ import { ControlledCustomSelect } from "@/components/commons/controlled-custom-s
 import { ControlledSlider } from "@/components/commons/controlled-slider";
 import { ControlledTextField } from "@/components/commons/controlled-text-field";
 import { Form } from "@/components/commons/form";
+import { HelperText } from "@/components/commons/helper-text";
 import { Stepper } from "@/components/commons/stepper";
 import { DashboardPageLayout } from "@/components/pages/dashboard/dashboard-page-layout";
 import { Button } from "@/components/shadcn/button";
@@ -37,13 +38,14 @@ import {
 } from "@/components/shadcn/table";
 import { StepperContext } from "@/consts/stepper-context";
 import { cn } from "@/utils/cn";
-import { Eraser, Plus } from "lucide-react";
+import { Eraser, Pencil, Plus } from "lucide-react";
 import {
   ComponentProps,
   FC,
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { Path, useFieldArray, useFormContext, useWatch } from "react-hook-form";
@@ -148,11 +150,6 @@ export default function StructureProject() {
               title: "Material Selection",
               description: "Fifth step",
               content: <MaterialSelectionStep />,
-            },
-            {
-              title: "Budget Management and Summary",
-              description: "Sixth step",
-              content: <StepperContentCard fieldNames={[]} />,
             },
           ]}
         />
@@ -287,8 +284,9 @@ const ProjectDetailsStep = () => {
 
 // Fifth step
 const MaterialSelectionStep = () => {
-  const { control, trigger } = useFormContext<StructureProjectRequest>();
-  const { fields, append, remove } = useFieldArray({
+  const { control, trigger, setValue, formState } =
+    useFormContext<StructureProjectRequest>();
+  const { fields, append, update, remove } = useFieldArray({
     control,
     name: "materials",
   });
@@ -298,10 +296,8 @@ const MaterialSelectionStep = () => {
       name: ["buildingElementTemp", "quantityTemp", "materialTemp"],
     });
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const add = useCallback(
-    () =>
+    ({ close }: CustomDialogSubmitParams) =>
       trigger(["buildingElementTemp", "quantityTemp", "materialTemp"]).then(
         (isValid) => {
           if (isValid) {
@@ -310,7 +306,7 @@ const MaterialSelectionStep = () => {
               quantity: watchedQuantityTemp,
               material: watchedMaterialTemp,
             });
-            setIsDialogOpen(false);
+            close();
           }
         },
       ),
@@ -323,11 +319,36 @@ const MaterialSelectionStep = () => {
     ],
   );
 
+  const edit = useCallback(
+    ({ index }: { index: number }) =>
+      ({ close }: CustomDialogSubmitParams) =>
+        trigger(["buildingElementTemp", "quantityTemp", "materialTemp"]).then(
+          (isValid) => {
+            if (isValid) {
+              update(index, {
+                buildingElement: watchedBuildingElementTemp,
+                quantity: watchedQuantityTemp,
+                material: watchedMaterialTemp,
+              });
+              close();
+            }
+          },
+        ),
+    [
+      trigger,
+      update,
+      watchedBuildingElementTemp,
+      watchedQuantityTemp,
+      watchedMaterialTemp,
+    ],
+  );
+
   return (
     <StepperContentCard
       cardTitle="Material Selection"
       cardDescription="Specify materials for different parts of the building by adding rows of detailed inputs."
       fieldNames={["materials"]}
+      className="block"
     >
       <div className="flex flex-col gap-2">
         <Table>
@@ -350,14 +371,48 @@ const MaterialSelectionStep = () => {
                   <TableCell>{quantity}</TableCell>
                   <TableCell>{material}</TableCell>
                   <TableCell className="flex items-center justify-end gap-2">
-                    <Button
-                      onClick={() => remove(index)}
-                      variant="secondary"
-                      size="icon"
-                      className="size-8"
+                    <CustomDialog
+                      dialogTitle="Edit Material"
+                      dialogDescription="Here you can edit your desired materials."
+                      submitText="Edit"
+                      submit={edit({ index })}
+                      onOpen={() => {
+                        setValue("buildingElementTemp", buildingElement);
+                        setValue("quantityTemp", quantity);
+                        setValue("materialTemp", material);
+                      }}
+                      trigger={
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="icon"
+                          className="size-8"
+                        >
+                          <Pencil />
+                        </Button>
+                      }
                     >
-                      <Eraser />
-                    </Button>
+                      <MaterialForm />
+                    </CustomDialog>
+                    <CustomDialog
+                      dialogTitle="Remove Material"
+                      dialogDescription="Are you sure you want to remove this material?"
+                      submitText="Remove"
+                      submit={({ close }) => {
+                        remove(index);
+                        close();
+                      }}
+                      trigger={
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="icon"
+                          className="size-8"
+                        >
+                          <Eraser />
+                        </Button>
+                      }
+                    />
                   </TableCell>
                 </TableRow>
               ),
@@ -374,58 +429,116 @@ const MaterialSelectionStep = () => {
           </TableBody>
         </Table>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
+        <CustomDialog
+          dialogTitle="Add New Material"
+          dialogDescription="Here you can specify your desired materials."
+          submitText="Add"
+          submit={add}
+          trigger={
             <Button type="button" variant="outline" className="w-full">
               <Plus />
             </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Material</DialogTitle>
-              <DialogDescription>
-                Here you can specify your desired materials.
-              </DialogDescription>
-            </DialogHeader>
+          }
+        >
+          <MaterialForm />
+        </CustomDialog>
 
-            <ControlledCustomSelect<StructureProjectRequest>
-              name="buildingElementTemp"
-              label="Building element"
-              options={[
-                { value: "floor", children: "Floor" },
-                { value: "roof", children: "Roof" },
-              ]}
-            />
-            <ControlledTextField<StructureProjectRequest>
-              name="quantityTemp"
-              type="number"
-              label="Quantity (m²)"
-              saveAsNumber
-            />
-            <ControlledCustomSelect<StructureProjectRequest>
-              name="materialTemp"
-              label="Material"
-              options={[
-                { value: "concrete", children: "Concrete" },
-                { value: "wood", children: "Wood" },
-                { value: "plaster", children: "Plaster" },
-              ]}
-            />
-
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="button" onClick={add}>
-                Add
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        {formState.errors.materials && (
+          <HelperText className="text-red-500">
+            {formState.errors.materials.message}
+          </HelperText>
+        )}
       </div>
     </StepperContentCard>
+  );
+};
+
+const MaterialForm = () => {
+  return (
+    <>
+      <ControlledCustomSelect<StructureProjectRequest>
+        name="buildingElementTemp"
+        label="Building element"
+        options={[
+          { value: "floor", children: "Floor" },
+          { value: "roof", children: "Roof" },
+        ]}
+      />
+      <ControlledTextField<StructureProjectRequest>
+        name="quantityTemp"
+        type="number"
+        label="Quantity (m²)"
+        saveAsNumber
+      />
+      <ControlledCustomSelect<StructureProjectRequest>
+        name="materialTemp"
+        label="Material"
+        options={[
+          { value: "concrete", children: "Concrete" },
+          { value: "wood", children: "Wood" },
+          { value: "plaster", children: "Plaster" },
+        ]}
+      />
+    </>
+  );
+};
+
+interface CustomDialogSubmitParams {
+  close: () => void;
+}
+interface CustomDialogProps extends ComponentProps<typeof Dialog> {
+  trigger: ReactNode;
+  dialogTitle: ReactNode;
+  dialogDescription?: ReactNode;
+  submitText?: string;
+  submit?: (props: CustomDialogSubmitParams) => void;
+  onOpen?: () => void;
+}
+
+export const CustomDialog: FC<CustomDialogProps> = ({
+  trigger,
+  dialogTitle,
+  dialogDescription,
+  submitText = "Submit",
+  submit,
+  onOpen,
+  children,
+  ...dialogProps
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const close = useCallback(() => setIsOpen(false), [setIsOpen]);
+
+  useEffect(() => {
+    if (isOpen === true) onOpen?.();
+  }, [isOpen]);
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen} {...dialogProps}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{dialogTitle}</DialogTitle>
+          {dialogDescription && (
+            <DialogDescription>{dialogDescription}</DialogDescription>
+          )}
+        </DialogHeader>
+
+        {children}
+
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+          {submit && (
+            <Button type="button" onClick={() => submit({ close })}>
+              {submitText}
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -448,7 +561,7 @@ const StepperContentCard: FC<StepperContentCardProps> = ({
   const { trigger } = useFormContext<StructureProjectRequest>();
 
   return (
-    <Card className={cn("mx-6 mt-4", className)} {...otherProps}>
+    <Card className="mx-6 mt-4">
       <CardHeader>
         <CardTitle>{cardTitle}</CardTitle>
         <CardDescription className="md:w-full lg:w-1/2 xl:w-1/3">
@@ -456,7 +569,13 @@ const StepperContentCard: FC<StepperContentCardProps> = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={cn(
+            "mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",
+            className,
+          )}
+          {...otherProps}
+        >
           {children}
         </div>
         <CardAction className="flex items-center gap-3">
