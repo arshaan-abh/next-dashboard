@@ -60,6 +60,7 @@ const MaterialSchema = z.object({
     z.literal("plaster"),
   ]),
 });
+type Material = z.infer<typeof MaterialSchema>;
 const StructureProjectSchema = z
   .object({
     address: z.string().min(1),
@@ -343,6 +344,16 @@ const MaterialSelectionStep = () => {
     ],
   );
 
+  const onEditDialogOpen = useCallback(
+    ({ buildingElement, quantity, material }: Material) =>
+      () => {
+        setValue("buildingElementTemp", buildingElement);
+        setValue("quantityTemp", quantity);
+        setValue("materialTemp", material);
+      },
+    [setValue],
+  );
+
   return (
     <StepperContentCard
       cardTitle="Material Selection"
@@ -376,11 +387,11 @@ const MaterialSelectionStep = () => {
                       dialogDescription="Here you can edit your desired materials."
                       submitText="Edit"
                       submit={edit({ index })}
-                      onOpen={() => {
-                        setValue("buildingElementTemp", buildingElement);
-                        setValue("quantityTemp", quantity);
-                        setValue("materialTemp", material);
-                      }}
+                      onOpen={onEditDialogOpen({
+                        buildingElement,
+                        quantity,
+                        material,
+                      })}
                       trigger={
                         <Button
                           type="button"
@@ -495,7 +506,7 @@ interface CustomDialogProps extends ComponentProps<typeof Dialog> {
   onOpen?: () => void;
 }
 
-export const CustomDialog: FC<CustomDialogProps> = ({
+const CustomDialog: FC<CustomDialogProps> = ({
   trigger,
   dialogTitle,
   dialogDescription,
@@ -510,7 +521,7 @@ export const CustomDialog: FC<CustomDialogProps> = ({
 
   useEffect(() => {
     if (isOpen === true) onOpen?.();
-  }, [isOpen]);
+  }, [isOpen, onOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen} {...dialogProps}>
